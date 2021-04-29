@@ -13,7 +13,7 @@ def get_residues_in_pocket(residues, ligand, cutoff=3):
     return [list(residues)[i] for i in idxs]
 
 
-def get_box(residues):
+def get_box(residues, add=4.0):
     coords = []
     for r in residues:
         coords += [list(a.get_vector()) for a in r]
@@ -21,11 +21,11 @@ def get_box(residues):
     vecu = coords.max(axis=0)
     vecl = coords.min(axis=0)
     center = (vecu + vecl) / 2.0
-    sizes = (vecu - vecl)
+    sizes = vecu - vecl + add
     return center, sizes
 
 
-def get_box_config(file_path, residues, ligand, cutoff=3, verbose=True):
+def get_box_config(file_path, residues, ligand, cutoff=3, add_size=4, verbose=True):
     residues_in_pocket = get_residues_in_pocket(residues, ligand, cutoff)
     if(verbose):
         print("Residues in pocket:")
@@ -37,9 +37,9 @@ def get_box_config(file_path, residues, ligand, cutoff=3, verbose=True):
     center_x = {center[0]}
     center_y = {center[1]}
     center_z = {center[2]}
-    size_x = {sizes[0]}
-    size_y = {sizes[1]}
-    size_z = {sizes[2]}'''
+    size_x = {sizes[0] + add_size}
+    size_y = {sizes[1] + add_size}
+    size_z = {sizes[2] + add_size}'''
     
     if(verbose):
         print("Box:")
